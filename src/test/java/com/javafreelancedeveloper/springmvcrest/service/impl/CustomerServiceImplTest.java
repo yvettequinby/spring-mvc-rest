@@ -2,7 +2,8 @@ package com.javafreelancedeveloper.springmvcrest.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.javafreelancedeveloper.springmvcrest.api.v1.mapper.CustomerMapper;
 import com.javafreelancedeveloper.springmvcrest.api.v1.model.CustomerDTO;
+import com.javafreelancedeveloper.springmvcrest.controller.v1.CustomerController;
 import com.javafreelancedeveloper.springmvcrest.domain.Customer;
 import com.javafreelancedeveloper.springmvcrest.repositories.CustomerRepository;
 import com.javafreelancedeveloper.springmvcrest.service.CustomerService;
@@ -77,6 +79,13 @@ public class CustomerServiceImplTest {
 		// then
 		assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
 		assertEquals(customerDTO.getLastName(), savedDto.getLastName());
-		assertEquals("/api/v1/customer/1", savedDto.getCustomerUrl());
+		assertEquals(CustomerController.BASE_URL + "/1", savedDto.getCustomerUrl());
+	}
+
+	@Test
+	public void testDeleteCustomer() throws Exception {
+		Long id = 1L;
+		customerService.deleteCustomer(id);
+		verify(customerRepository, times(1)).deleteById(anyLong());
 	}
 }
