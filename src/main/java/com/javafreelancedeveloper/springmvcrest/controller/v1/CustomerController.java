@@ -1,5 +1,8 @@
 package com.javafreelancedeveloper.springmvcrest.controller.v1;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import com.javafreelancedeveloper.springmvcrest.api.v1.model.CustomerDTO;
 import com.javafreelancedeveloper.springmvcrest.api.v1.model.CustomerListDTO;
 import com.javafreelancedeveloper.springmvcrest.service.CustomerService;
 
+@Api(description = "Customer Controller API")
 @RestController
 @RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
@@ -31,6 +35,7 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
+	@ApiOperation(value = "List all customers.")
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerListDTO listCustomers() {
@@ -39,6 +44,7 @@ public class CustomerController {
 		return customersDto;
 	}
 
+	@ApiOperation(value = "Get a customer by ID.")
 	@GetMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerDTO getCustomerById(@PathVariable Long id) {
@@ -46,24 +52,28 @@ public class CustomerController {
 		return customer;
 	}
 
+	@ApiOperation(value = "Create a customer.")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CustomerDTO createNewCustomer(@RequestBody CustomerDTO customerDTO) {
 		return customerService.saveCustomer(customerDTO);
 	}
 
-	@PutMapping({ "/{id}" })
+	@ApiOperation(value = "Update a customer.")
+	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerDTO updateCustomer(@RequestBody CustomerDTO customerDTO) {
 		return customerService.saveCustomer(customerDTO);
 	}
 
-	@PatchMapping({ "/{id}" })
+	@ApiOperation(value = "Patch a customer.", notes="Only fields with provided values will be updated in the customer record.")
+	@PatchMapping
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerDTO patchCustomer(@RequestBody CustomerDTO customerDTO) {
 		return customerService.patchCustomer(customerDTO);
 	}
 	
+	@ApiOperation(value = "Delete a customer, by ID.")
 	@DeleteMapping({ "/{id}" })
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteCustomer(@PathVariable Long id) {

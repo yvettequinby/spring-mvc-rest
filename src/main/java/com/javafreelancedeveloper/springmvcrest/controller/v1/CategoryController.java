@@ -1,5 +1,7 @@
 package com.javafreelancedeveloper.springmvcrest.controller.v1;
 
+import io.swagger.annotations.ApiOperation;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 
+	@ApiOperation(value = "List all categories.")
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public CategoryListDTO listCategories() {
@@ -34,6 +37,7 @@ public class CategoryController {
 		return categoriesDto;
 	}
 
+	@ApiOperation(value = "Get a category by name.")
 	@GetMapping("/{name}")
 	@ResponseStatus(HttpStatus.OK)
 	public CategoryDTO getCategoryByName(@PathVariable String name) {
